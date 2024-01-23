@@ -1,3 +1,7 @@
+import os
+
+from dotenv import load_dotenv
+
 from querier import MemberQuerier
 
 
@@ -12,7 +16,7 @@ class Client:
 
 
 if __name__ == "__main__":
-    key = 0
-    client = Client(key)
+    load_dotenv()
+    client = Client(os.getenv('KEY'))
     response = client.member.list()
     print(response.data)
