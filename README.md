@@ -1,4 +1,6 @@
-## Data models
+The `Client` class functions as a (sort of) [facade](https://refactoring.guru/design-patterns/facade) for the library. If the library is to be used _as-is_, then this is the only class that the user should instatiate and interact with.
+
+# Appendix A: Data models
 
 ### LogEntry
 - id: int
