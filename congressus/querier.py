@@ -2,7 +2,6 @@ import requests
 
 from base_client import BaseClient
 from response import PaginatedResponse
-from models.elastic_member import ElasticMember
 from models.group_membership import GroupMembership
 from models.member import Member
 
