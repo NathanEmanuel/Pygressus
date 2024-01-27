@@ -1,5 +1,5 @@
-from congressus.api.base_client import BaseClient
-from congressus.api.querier import MemberQuerier, GroupMembershipQuerier, WebhookQuerier
+from api.base_client import BaseClient
+from api.querier import MemberQuerier, GroupMembershipQuerier, WebhookQuerier
 
 
 class Client(BaseClient):
