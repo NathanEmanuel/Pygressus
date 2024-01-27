@@ -2,21 +2,26 @@ import os
 
 from dotenv import load_dotenv
 
+from base_client import BaseClient
 from querier import MemberQuerier
 
 
-class Client:
-    DOMAIN = 'https://api.congressus.nl'
+class Client(BaseClient):
+    DOMAIN = "https://api.congressus.nl"
 
-    def __init__(self, key, version='v30') -> None:
+    def __init__(self, key) -> None:
         self.key = key
-        self.version: str = version
-        self.url = f'{self.DOMAIN}/{self.version}'
-        self.member = MemberQuerier(self.url, self.key)
+        self.member = MemberQuerier(self)
+
+    def get_domain(self) -> str:
+        return self.DOMAIN
+
+    def get_key(self) -> str:
+        return self.key
 
 
 if __name__ == "__main__":
     load_dotenv()
-    client = Client(os.getenv('KEY'))
-    response = client.member.list()
+    client = Client(os.getenv("KEY"))
+    response = client.member.search("Nathan Djojomoenawie")
     print(response.data)

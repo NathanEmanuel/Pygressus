@@ -1,4 +1,4 @@
-class CongressusListResponse():
+class PaginatedResponse:
     def __init__(self, total, has_prev, prev_num, has_next, next_num, data) -> None:
         self.total: int = total
         self.has_prev: bool = has_prev

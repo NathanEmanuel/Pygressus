@@ -1,44 +1,47 @@
 import requests
 
-from response import CongressusListResponse
+from base_client import BaseClient
+from response import PaginatedResponse
+from models.elastic_member import ElasticMember
+
 
 class Querier:
-    def __init__(self, url, key) -> None:
-        self.url = url
-        self.key = key
-        self.auth_header = {'Authorization': f'Bearer {self.key}'}
+    def __init__(self, client: BaseClient) -> None:
+        self.domain = client.get_domain()
+        self.auth_header = {"Authorization": f"Bearer {client.get_key()}"}
 
-class MemberQuerier(Querier):
-    ENDPOINT_SUFFIX = '/members'
+    def authorized_request(self, path: str, params: dict = dict(), headers: dict = dict()) -> dict:
+        """Returns the response to an HTTP request.
+        Throws error on bad status code.
+        Path must start with a /
+        """
+        url = self.domain + path
+        headers.update(self.auth_header)
 
-    def __init__(self, url, key) -> None:
-        super().__init__(url + self.ENDPOINT_SUFFIX, key)
-
-    def list(self) -> CongressusListResponse:
-        headers = self.auth_header
-        params = {}
-
-        response = requests.get(self.url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
 
-        return CongressusListResponse(**response.json())
+        return response.json()
 
-    @staticmethod
+
+class MemberQuerier(Querier):
+    def list(self) -> PaginatedResponse:
+        path = "/members"
+        return PaginatedResponse(**self.authorized_request(path))
+
     def create():
         pass
 
-    @staticmethod
     def retrieve():
         pass
 
-    @staticmethod
     def update():
         pass
 
-    @staticmethod
     def delete():
         pass
 
-    @staticmethod
-    def search():
-        pass
+    def search(self, term):
+        path = "/v30/members/search"
+        params = {"term": term}
+        return PaginatedResponse(**self.authorized_request(path, params=params))
