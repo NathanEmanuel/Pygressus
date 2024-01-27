@@ -25,8 +25,9 @@ class Querier:
 
 
 class MemberQuerier(Querier):
-    def list(self) -> PaginatedResponse:
+    def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = "/v30/members"
+        params = {'page': page, 'page_size': page_size, 'order': order}
         return PaginatedResponse(**self.authorized_request(path))
 
     def create():
@@ -41,7 +42,7 @@ class MemberQuerier(Querier):
     def delete():
         pass
 
-    def search(self, term):
+    def search(self, term, page=None, page_size=None, order=None):
         path = "/v30/members/search"
-        params = {"term": term}
+        params = {'term': term, 'page': page, 'page_size': page_size, 'order': order}
         return PaginatedResponse(**self.authorized_request(path, params=params))

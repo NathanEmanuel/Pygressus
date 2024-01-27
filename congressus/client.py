@@ -23,5 +23,5 @@ class Client(BaseClient):
 if __name__ == "__main__":
     load_dotenv()
     client = Client(os.getenv("KEY"))
-    response = client.member.search("Nathan Djojomoenawie")
-    print(response.data)
+    print(client.member.list().total)
+    print(client.member.search("Nathan Djojomoenawie").total)
