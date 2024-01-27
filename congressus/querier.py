@@ -63,8 +63,9 @@ class MemberQuerier(Querier):
 class GroupMembershipQuerier(Querier):
     BASE_PATH = "/v30/groups/memberships"
 
-    def list(self) -> PaginatedResponse:
-        return PaginatedResponse(**self.authorized_request(self.BASE_PATH))
+    def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
+        params = {"page": page, "page_size": page_size, "order": order}
+        return PaginatedResponse(**self.authorized_request(self.BASE_PATH, params=params))
 
     def create(self, gms: GroupMembership):
         pass
