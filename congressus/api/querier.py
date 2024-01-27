@@ -1,9 +1,9 @@
 import requests
 
-from base_client import BaseClient
-from response import PaginatedResponse
-from models.group_membership import GroupMembership
-from models.member import Member
+from congressus.api.base_client import BaseClient
+from congressus.models.group_membership import GroupMembership
+from congressus.models.member import Member
+from congressus.models.paginated_response import PaginatedResponse
 
 
 class Querier:
