@@ -1,7 +1,3 @@
-import os
-
-from dotenv import load_dotenv
-
 from congressus.api.base_client import BaseClient
 from congressus.api.querier import MemberQuerier, GroupMembershipQuerier, WebhookQuerier
 
@@ -20,10 +16,3 @@ class Client(BaseClient):
 
     def get_key(self) -> str:
         return self.key
-
-
-if __name__ == "__main__":
-    load_dotenv()
-    client = Client(os.getenv("KEY"))
-    print(client.member.list().total)
-    print(client.member.search("Nathan Djojomoenawie").total)
