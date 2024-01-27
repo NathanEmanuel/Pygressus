@@ -26,7 +26,7 @@ class Querier:
 
 class MemberQuerier(Querier):
     def list(self) -> PaginatedResponse:
-        path = "/members"
+        path = "/v30/members"
         return PaginatedResponse(**self.authorized_request(path))
 
     def create():
