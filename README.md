@@ -34,3 +34,11 @@
 - start: str
 - end: str
 - function: str
+- may_edit_profile: bool
+- may_manage_memberships: bool
+- may_manage_storage_objects: bool
+- is_self_enroll: bool
+- order_type: str
+- order: int
+- group_id: int
+- group: object
