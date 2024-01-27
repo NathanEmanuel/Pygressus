@@ -35,10 +35,12 @@ class Querier:
 
 
 class MemberQuerier(Querier):
+    BASE_PATH = "/v30/members"
+
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
-        path = "/v30/members"
-        params = {'page': page, 'page_size': page_size, 'order': order}
-        return PaginatedResponse(**self.authorized_request(path))
+        path = self.BASE_PATH
+        params = {"page": page, "page_size": page_size, "order": order}
+        return PaginatedResponse(**self.authorized_request(path, params))
 
     def create():
         pass
@@ -52,17 +54,18 @@ class MemberQuerier(Querier):
     def delete():
         pass
 
-    def search(self, term, page=None, page_size=None, order=None):
-        path = "/v30/members/search"
-        params = {'term': term, 'page': page, 'page_size': page_size, 'order': order}
+    def search(self, term, page=None, page_size=None, order=None) -> PaginatedResponse:
+        path = self.BASE_PATH + "/search"
+        params = {"term": term, "page": page, "page_size": page_size, "order": order}
         return PaginatedResponse(**self.authorized_request(path, params=params))
 
-class GroupMembershipQuerier(Querier):
-    BASE_PATH = '/v30/groups/memberships'
 
-    def list(self)-> PaginatedResponse:
+class GroupMembershipQuerier(Querier):
+    BASE_PATH = "/v30/groups/memberships"
+
+    def list(self) -> PaginatedResponse:
         return PaginatedResponse(**self.authorized_request(self.BASE_PATH))
-    
+
     def create(self, gms: GroupMembership):
         pass
 
