@@ -7,12 +7,21 @@ from models.group_membership import GroupMembership
 
 
 class Querier:
+    """
+    Intended as a base class for queriers. Can be instatiated but this
+    generally should be limited to development- and testing environments.
+    """
+
     def __init__(self, client: BaseClient) -> None:
+        """
+        Requires the client to be injected so the querier can obtain the API domain and -key.
+        """
         self.domain = client.get_domain()
         self.auth_header = {"Authorization": f"Bearer {client.get_key()}"}
 
     def authorized_request(self, path: str, params: dict = dict(), headers: dict = dict()) -> dict:
-        """Returns the response to an HTTP request.
+        """
+        Returns the response to an HTTP request.
         Throws error on bad status code.
         Path must start with a /
         """
