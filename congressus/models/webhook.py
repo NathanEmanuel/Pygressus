@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
+
 class Signal(Enum):
     MEMBER = "member"
     MEMBER_ADDED = "member_added"
@@ -19,13 +20,18 @@ class Signal(Enum):
     SALE_INVOICE_UPDATED = "sale_invoice_updated"
     SALE_INVOICE_DELETED = "sale_invoice_deleted"
 
+
 @dataclass()
-class Webhook:
-    id: int
+class ConceptualWebhook:
     url: str
     headers: object
-    version: str
-    signal: enumerate
+    signal: Enum
     technical_contact_email: str
-    http_basic_auth_key: str
     http_basic_auth_enabled: bool
+
+
+@dataclass()
+class Webhook(ConceptualWebhook):
+    id: int
+    version: str
+    http_basic_auth_key: str
