@@ -3,6 +3,7 @@ import requests
 from base_client import BaseClient
 from response import PaginatedResponse
 from models.elastic_member import ElasticMember
+from models.group_membership import GroupMembership
 
 
 class Querier:
@@ -46,3 +47,21 @@ class MemberQuerier(Querier):
         path = "/v30/members/search"
         params = {'term': term, 'page': page, 'page_size': page_size, 'order': order}
         return PaginatedResponse(**self.authorized_request(path, params=params))
+
+class GroupMembershipQuerier(Querier):
+    BASE_PATH = '/v30/groups/memberships'
+
+    def list(self)-> PaginatedResponse:
+        return PaginatedResponse(**self.authorized_request(self.BASE_PATH))
+    
+    def create(self, gms: GroupMembership):
+        pass
+
+    def retrieve(self, id: int):
+        pass
+
+    def update(self, id: int, gms: GroupMembership):
+        pass
+
+    def delete(self, id: int):
+        pass
