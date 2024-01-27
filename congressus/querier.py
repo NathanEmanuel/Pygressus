@@ -4,6 +4,7 @@ from base_client import BaseClient
 from response import PaginatedResponse
 from models.elastic_member import ElasticMember
 from models.group_membership import GroupMembership
+from models.member import Member
 
 
 class Querier:
@@ -45,8 +46,9 @@ class MemberQuerier(Querier):
     def create():
         pass
 
-    def retrieve():
-        pass
+    def retrieve(self, id: int) -> Member:
+        path = self.BASE_PATH + f"/{id}"
+        return Member(**self.authorized_request(path))
 
     def update():
         pass

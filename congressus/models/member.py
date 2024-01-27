@@ -1,0 +1,46 @@
+from dataclasses import dataclass
+
+@dataclass
+class Member:
+    id: int
+    username: str
+    status: object
+    statuses: list[object]
+    gender: str
+    prefix: str
+    initials: str
+    nickname: str
+    given_name: str
+    first_name: str
+    primary_last_name_main: str
+    primary_last_name_prefix: str
+    primary_last_name: str
+    secondary_last_name_main: str
+    secondary_last_name_prefix: str
+    secondary_last_name: str
+    last_name_display: str
+    last_name: str
+    search_name: str
+    suffix: str
+    date_of_birth: str
+    email: str
+    phone_mobile: object
+    phone_home: object
+    address: object
+    profile_picture_id: int
+    profile_picture: object
+    formal_picture_id: int
+    formal_picture: object
+    deleted: bool
+    receive_sms: bool
+    receive_mailings: bool
+    show_almanac: bool
+    show_almanac_addresses: bool
+    show_almanac_phonenumbers: bool
+    show_almanac_email: bool
+    show_almanac_date_of_birth: bool
+    show_almanac_custom_fields: bool
+    modified: str
+    memo: str
+    bank_account: object
+    custom_fields: list
