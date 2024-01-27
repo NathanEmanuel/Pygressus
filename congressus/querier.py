@@ -80,3 +80,27 @@ class GroupMembershipQuerier(Querier):
 
     def delete(self, id: int):
         pass
+
+
+class WebhookQuerier(Querier):
+    BASE_PATH = "/v30/webhooks"
+
+    def list(self, page=None, page_size=None, order=None):
+        path = self.BASE_PATH
+        params = {"page": page, "page_size": page_size, "order": order}
+        return PaginatedResponse(**self.authorized_request(path, params=params))
+
+    def create(self):
+        pass
+
+    def retrieve(self):
+        pass
+
+    def update(self):
+        pass
+
+    def delete(self):
+        pass
+
+    def list_calls(self):
+        pass

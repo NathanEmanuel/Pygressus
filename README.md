@@ -1,4 +1,4 @@
-## Models
+## Data models
 
 ### LogEntry
 - id: int
@@ -42,3 +42,13 @@
 - order: int
 - group_id: int
 - group: object
+
+### Webhook
+- id: int
+- url: str
+- headers: object
+- version: str
+- signal: enumerate
+- technical_contact_email: str
+- http_basic_auth_key: str
+- http_basic_auth_enabled: bool
