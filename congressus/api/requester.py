@@ -138,5 +138,6 @@ class WebhookRequester(Requester):
         path = f"{self.BASE_PATH}/{id}"
         return self.authorized_request(path, method=HTTPMethod.DELETE)
 
-    def list_calls(self):
-        pass
+    def list_calls(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/calls"
+        return PaginatedResponse(**self.authorized_request(path))
