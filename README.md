@@ -8,6 +8,30 @@ The `Client` class functions as a (sort of) [facade](https://refactoring.guru/de
 | Hard       | Extending the HTTP part of the webhook server |
 | Expert     | Extending the TLS part of the webhook server  |
 
+# Project structure
+```
+congressus
+│   client.py
+│
+├───api
+│       base_client.py
+│       paginated_response.py
+│       requester.py
+│
+├───models
+│       elastic_member.py
+│       group.py
+│       group_membership.py
+│       log_entry.py
+│       member.py
+│       membership_status.py
+│       member_status.py
+│       webhook.py
+│
+└───webhook
+        server.py
+```
+
 
 # Appendix A: Data models
 
