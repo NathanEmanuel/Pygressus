@@ -2,9 +2,9 @@ import requests
 from enum import Enum
 
 from api.base_client import BaseClient
+from api.paginated_response import PaginatedResponse
 from models.group_membership import GroupMembership
 from models.member import Member
-from models.paginated_response import PaginatedResponse
 from models.webhook import ConceptualWebhook
 
 
@@ -15,15 +15,15 @@ class HTTPMethod(Enum):
     DELETE = 3
 
 
-class Querier:
+class Requester:
     """
-    Intended as a base class for queriers. Can be instatiated but this
+    Intended as a base class for requester components. Can be instatiated but this
     generally should be limited to development- and testing environments.
     """
 
     def __init__(self, client: BaseClient) -> None:
         """
-        Requires the client to be injected so the querier can obtain the API domain and -key.
+        Requires the client to be injected so the requester component can obtain the API domain and -key.
         """
         self.domain = client.get_domain()
         self.auth_header = {"Authorization": f"Bearer {client.get_key()}"}
@@ -57,7 +57,7 @@ class Querier:
         return response.json()
 
 
-class MemberQuerier(Querier):
+class MemberRequester(Requester):
     BASE_PATH = "/v30/members"
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
@@ -84,7 +84,7 @@ class MemberQuerier(Querier):
         return PaginatedResponse(**self.authorized_request(path, params=params))
 
 
-class GroupMembershipQuerier(Querier):
+class GroupMembershipRequester(Requester):
     BASE_PATH = "/v30/groups/memberships"
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
@@ -104,7 +104,7 @@ class GroupMembershipQuerier(Querier):
         pass
 
 
-class WebhookQuerier(Querier):
+class WebhookRequester(Requester):
     BASE_PATH = "/v30/webhooks"
 
     def list(self, page=None, page_size=None, order=None):

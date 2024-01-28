@@ -1,5 +1,5 @@
 from api.base_client import BaseClient
-from api.querier import MemberQuerier, GroupMembershipQuerier, WebhookQuerier
+from api.requester import MemberRequester, GroupMembershipRequester, WebhookRequester
 
 
 class Client(BaseClient):
@@ -7,9 +7,9 @@ class Client(BaseClient):
 
     def __init__(self, key) -> None:
         self.key = key
-        self.member = MemberQuerier(self)
-        self.group_membership = GroupMembershipQuerier(self)
-        self.webhook = WebhookQuerier(self)
+        self.member = MemberRequester(self)
+        self.group_membership = GroupMembershipRequester(self)
+        self.webhook = WebhookRequester(self)
 
     def get_domain(self) -> str:
         return self.DOMAIN
