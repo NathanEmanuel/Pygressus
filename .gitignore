@@ -1,2 +1,4 @@
 __pycache__/
 .env
+congressus/webhook/certificate.pem
+congressus/webhook/key.pem
