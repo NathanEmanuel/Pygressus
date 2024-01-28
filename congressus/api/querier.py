@@ -63,7 +63,7 @@ class MemberQuerier(Querier):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params))
+        return PaginatedResponse(**self.authorized_request(path, params=params))
 
     def create():
         pass
