@@ -1,5 +1,14 @@
 The `Client` class functions as a (sort of) [facade](https://refactoring.guru/design-patterns/facade) for the library. If the library is to be used _as-is_, then this is the only class that the user should instatiate and interact with.
 
+## TODOs
+| Difficulty | Task                                          |
+|------------|-----------------------------------------------|
+| Easy       | Implementing data models and GET requests     |
+| Normal     | Implementing POST, PUT, and DELETE requests   |
+| Hard       | Extending the HTTP part of the webhook server |
+| Expert     | Extending the TLS part of the webhook server  |
+
+
 # Appendix A: Data models
 
 ### LogEntry
