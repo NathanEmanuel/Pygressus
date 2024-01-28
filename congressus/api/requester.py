@@ -49,6 +49,10 @@ class Requester:
                 response = requests.get(url, params=params, headers=headers)
             case HTTPMethod.POST:
                 response = requests.post(url, json=payload, headers=headers)
+            case HTTPMethod.DELETE:
+                response = requests.delete(url, headers=headers)
+                return response
+
             case _:
                 raise ValueError("Unsupported HTTP method")
 
@@ -122,9 +126,7 @@ class WebhookRequester(Requester):
             "http_basic_auth_enabled": new.http_basic_auth_enabled,
         }
         headers = {"Content-Type": "application/json"}
-        return PaginatedResponse(
-            **self.authorized_request(path, method=HTTPMethod.POST, payload=payload, headers=headers)
-        )
+        return self.authorized_request(path, method=HTTPMethod.POST, payload=payload, headers=headers)
 
     def retrieve(self):
         pass
@@ -132,8 +134,9 @@ class WebhookRequester(Requester):
     def update(self):
         pass
 
-    def delete(self):
-        pass
+    def delete(self, id: int):
+        path = f"{self.BASE_PATH}/{id}"
+        return self.authorized_request(path, method=HTTPMethod.DELETE)
 
     def list_calls(self):
         pass
