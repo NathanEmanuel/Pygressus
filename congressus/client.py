@@ -16,3 +16,12 @@ class Client(BaseClient):
 
     def get_key(self) -> str:
         return self.key
+
+if __name__ == "__main__":
+    from os import getenv
+    from dotenv import load_dotenv
+    load_dotenv()
+    client = Client(getenv("KEY"))
+    client.member.list()
+    client.group_membership.list()
+    client.webhook.list()
