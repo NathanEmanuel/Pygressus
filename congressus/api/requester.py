@@ -46,19 +46,19 @@ class Requester:
 
         match method:
             case HTTPMethod.GET:
-                response = requests.get(url, params=params, headers=headers)
+                response = requests.get(url, headers=headers, params=params)
+                response.raise_for_status()
+                return response.json()
             case HTTPMethod.POST:
-                response = requests.post(url, json=payload, headers=headers)
+                response = requests.post(url, headers=headers, json=payload)
+                response.raise_for_status()
+                return response
             case HTTPMethod.DELETE:
                 response = requests.delete(url, headers=headers)
+                response.raise_for_status()
                 return response
-
             case _:
                 raise ValueError("Unsupported HTTP method")
-
-        response.raise_for_status()
-
-        return response.json()
 
 
 class MemberRequester(Requester):
