@@ -5,20 +5,15 @@ from ssl import SSLContext, PROTOCOL_TLS_SERVER
 class WebhookHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
-        self.send_header("Content-Type", "text/html")
         self.end_headers()
-
-        print(f"Received GET request")
-        self.wfile.write(bytes("<html><body><h1>Hello world!</h1></body></html>", "utf-8"))
 
     def do_POST(self):
         self.send_response(200)
-        self.send_header("Content-Type", "application/json")
         self.end_headers()
 
         content_length = int(self.headers.get("Content-Length", 0))
         data = self.rfile.read(content_length)
-        print(f"Received POST request: {data.decode()}")
+        print(data.decode())
 
 
 if __name__ == "__main__":
