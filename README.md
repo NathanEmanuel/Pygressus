@@ -35,7 +35,7 @@ The `Client` class functions as a (sort of) [facade](https://refactoring.guru/de
 
 ### Project structure
 ```
-congressus
+pygressus
 │   client.py
 │
 ├───api
