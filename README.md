@@ -33,7 +33,7 @@ There is more to learn regarding different types of requests, pages, webhooks, e
 ## Advanced usage
 The `Client` class functions as a (sort of) [facade](https://refactoring.guru/design-patterns/facade) for the library. If the library is to be used _as-is_, then this is the only class that the user should instatiate and interact with.
 
-### Project structure
+### Package structure
 ```
 pygressus
 │   client.py
@@ -62,60 +62,5 @@ pygressus
 |------------|------------------------------------------------------|
 | Easy       | Implementing data models and GET and DELETE requests |
 | Normal     | Implementing POST and PUT requests                   |
-| Hard       | Extending the HTTP part of the webhook server        |
-
-
-## Appendix A: Data models
-
-#### LogEntry
-- id: int
-- type: str
-- text: str
-- subject_type: str
-- subject_id: int
-- author_id: int
-- created: str
-- modified: str
-- author: object
-- subject: object
-
-#### Member
-- id: int
-- username: str
-
-#### MembershipStatus
-- id: int
-- name: str
-
-#### ElasticMember
-- _score: int
-- id: int
-
-#### Group
-- id: int
-- folder_id: int
-
-#### GroupMembership
-- id: int
-- member_id: int
-- start: str
-- end: str
-- function: str
-- may_edit_profile: bool
-- may_manage_memberships: bool
-- may_manage_storage_objects: bool
-- is_self_enroll: bool
-- order_type: str
-- order: int
-- group_id: int
-- group: object
-
-#### Webhook
-- id: int
-- url: str
-- headers: object
-- version: str
-- signal: enumerate
-- technical_contact_email: str
-- http_basic_auth_key: str
-- http_basic_auth_enabled: bool
+| Hard       | Writing test code                                    |
+| Expert     | Implementing the webhook server                      |
