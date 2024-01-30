@@ -37,24 +37,22 @@ The `Client` class functions as a (sort of) [facade](https://refactoring.guru/de
 ```
 pygressus
 │   client.py
+│   webhook_server.py
 │
 ├───api
 │       base_client.py
 │       paginated_response.py
 │       requester.py
 │
-├───models
-│       elastic_member.py
-│       group.py
-│       group_membership.py
-│       log_entry.py
-│       member.py
-│       membership_status.py
-│       member_status.py
-│       webhook.py
-│
-└───webhook
-        server.py
+└───models
+        elastic_member.py
+        group.py
+        group_membership.py
+        log_entry.py
+        member.py
+        membership_status.py
+        member_status.py
+        webhook.py
 ```
 
 ### TODOs
