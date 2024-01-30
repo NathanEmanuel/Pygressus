@@ -1,4 +1,4 @@
-# Congressus API Python library
+# Pygressus: Congressus API Python library
 Interact with the [Congressus API](https://api.congressus.nl/v30/docs) using Python scripts!
 
 ## Basic usage
@@ -58,12 +58,12 @@ congressus
 ```
 
 ### TODOs
-| Difficulty | Task                                                     |
-|------------|----------------------------------------------------------|
-| Easy       | Implementing data models and GET and DELETE requests     |
-| Normal     | Implementing POST and PUT requests                       |
-| Hard       | Extending the HTTP part of the webhook server            |
-| Expert     | Extending the TLS part of the webhook server             |
+| Difficulty | Task                                                 |
+|------------|------------------------------------------------------|
+| Easy       | Implementing data models and GET and DELETE requests |
+| Normal     | Implementing POST and PUT requests                   |
+| Hard       | Extending the HTTP part of the webhook server        |
+
 
 ## Appendix A: Data models
 
