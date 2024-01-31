@@ -1,13 +1,14 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass()
 class MemberStatus:
     name: str
 
-    id: int = None
-    description: str = None
-    archived: bool = None
-    hidden: bool = None
-    deceased: bool = None
-    order: int = None
+    id: Optional[int] = None
+    description: Optional[str] = None
+    archived: Optional[bool] = None
+    hidden: Optional[bool] = None
+    deceased: Optional[bool] = None
+    order: Optional[int] = None

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass()
@@ -7,17 +8,17 @@ class Group:
     slug: str
     start: str
 
-    folder_id: int = None
-    folder: object = None
-    name: str = None
-    address: object = None
-    postal_adress: object = None
-    description: str = None
-    description_short: str = None
-    email: str = None
-    url: str = None
-    logo: object = None
-    path: str = None
-    published: bool = None
-    end: str = None
-    memo: str = None
+    folder_id: Optional[int] = None
+    folder: Optional[object] = None
+    name: Optional[str] = None
+    address: Optional[object] = None
+    postal_adress: Optional[object] = None
+    description: Optional[str] = None
+    description_short: Optional[str] = None
+    email: Optional[str] = None
+    url: Optional[str] = None
+    logo: Optional[object] = None
+    path: Optional[str] = None
+    published: Optional[bool] = None
+    end: Optional[str] = None
+    memo: Optional[str] = None
