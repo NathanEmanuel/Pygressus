@@ -10,18 +10,17 @@ from models.member import Member
 from models.webhook import ConceptualWebhook
 
 
-class HTTPMethod(Enum):
-    GET = 0
-    POST = 1
-    PUT = 2
-    DELETE = 3
-
-
 class Requester:
     """
     Intended as a base class for requester components. Can be instatiated but this
     generally should be limited to development- and testing environments.
     """
+
+    class HTTPMethod(Enum):
+        GET = 0
+        POST = 1
+        PUT = 2
+        DELETE = 3
 
     class BearerAuth(AuthBase):
         def __init__(self, token):
@@ -51,19 +50,26 @@ class Requester:
         Throws error on bad status code.
         Path must start with a /
         """
-        url = self.domain + path
 
         match method:
             case HTTPMethod.GET:
                 response = requests.get(
-                    url, auth=self.auth, headers=headers, params=params
+                    url=self.domain + path,
+                    auth=self.auth,
+                    headers=headers,
+                    params=params,
                 )
             case HTTPMethod.POST:
                 response = requests.post(
-                    url, auth=self.auth, headers=headers, json=payload
+                    url=self.domain + path,
+                    auth=self.auth,
+                    headers=headers,
+                    json=payload,
                 )
             case HTTPMethod.DELETE:
-                response = requests.delete(url, auth=self.auth, headers=headers)
+                response = requests.delete(
+                    url=self.domain + path, auth=self.auth, headers=headers
+                )
             case _:
                 raise ValueError("Unsupported HTTP method")
 
