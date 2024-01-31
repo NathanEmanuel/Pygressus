@@ -3,11 +3,11 @@ from enum import Enum
 import requests
 from requests.auth import AuthBase
 
-from api.base_client import BaseClient
-from api.paginated_response import PaginatedResponse
-from models.group_membership import GroupMembership
-from models.member import Member
-from models.webhook import ConceptualWebhook
+from pygressus.api.base_client import BaseClient
+from pygressus.api.paginated_response import PaginatedResponse
+from pygressus.models.group_membership import GroupMembership
+from pygressus.models.member import Member
+from pygressus.models.webhook import ConceptualWebhook
 
 
 class HTTPMethod(Enum):
@@ -79,9 +79,7 @@ class MemberRequester(Requester):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(
-            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
-        )
+        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
 
     def create(self):
         pass
@@ -99,9 +97,7 @@ class MemberRequester(Requester):
     def search(self, term, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH + "/search"
         params = {"term": term, "page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(
-            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
-        )
+        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
 
 
 class GroupMembershipRequester(Requester):
@@ -109,11 +105,7 @@ class GroupMembershipRequester(Requester):
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(
-            **self.authorized_request(
-                HTTPMethod.GET, self.BASE_PATH, params=params
-            ).json()
-        )
+        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, self.BASE_PATH, params=params).json())
 
     def create(self, gms: GroupMembership):
         pass
@@ -134,9 +126,7 @@ class WebhookRequester(Requester):
     def list(self, page=None, page_size=None, order=None):
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(
-            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
-        )
+        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
 
     def create(self, new: ConceptualWebhook):
         path = self.BASE_PATH
@@ -148,9 +138,7 @@ class WebhookRequester(Requester):
             "http_basic_auth_enabled": new.http_basic_auth_enabled,
         }
         headers = {"Content-Type": "application/json"}
-        return self.authorized_request(
-            HTTPMethod.POST, path, payload=payload, headers=headers
-        )
+        return self.authorized_request(HTTPMethod.POST, path, payload=payload, headers=headers)
 
     def retrieve(self):
         pass

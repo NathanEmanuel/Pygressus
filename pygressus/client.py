@@ -1,5 +1,5 @@
-from api.base_client import BaseClient
-from api.requester import MemberRequester, GroupMembershipRequester, WebhookRequester
+from pygressus.api.base_client import BaseClient
+from pygressus.api.requester import MemberRequester, GroupMembershipRequester, WebhookRequester
 
 
 class Client(BaseClient):
