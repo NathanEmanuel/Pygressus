@@ -10,17 +10,18 @@ from models.member import Member
 from models.webhook import ConceptualWebhook
 
 
+class HTTPMethod(Enum):
+    GET = 0
+    POST = 1
+    PUT = 2
+    DELETE = 3
+
+
 class Requester:
     """
     Intended as a base class for requester components. Can be instatiated but this
     generally should be limited to development- and testing environments.
     """
-
-    class HTTPMethod(Enum):
-        GET = 0
-        POST = 1
-        PUT = 2
-        DELETE = 3
 
     class BearerAuth(AuthBase):
         def __init__(self, token):
@@ -35,7 +36,7 @@ class Requester:
         Requires the client to be injected so the requester component can obtain the API domain and token.
         """
         self.domain = client.get_domain()
-        self.auth = self.BearerAuth(client.get_token())
+        self.auth = BearerAuth(client.get_token())
 
     def authorized_request(
         self,
@@ -154,3 +155,12 @@ class WebhookRequester(Requester):
     def list_calls(self, id: int):
         path = f"{self.BASE_PATH}/{id}/calls"
         return PaginatedResponse(**self.authorized_request(path).json())
+
+
+class BearerAuth(AuthBase):
+    def __init__(self, token):
+        self.token = token
+
+    def __call__(self, r):
+        r.headers["Authorization"] = "Bearer " + self.token
+        return r
