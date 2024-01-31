@@ -50,26 +50,19 @@ class Requester:
         Throws error on bad status code.
         Path must start with a /
         """
+        url = self.domain + path
 
         match method:
             case HTTPMethod.GET:
                 response = requests.get(
-                    url=self.domain + path,
-                    auth=self.auth,
-                    headers=headers,
-                    params=params,
+                    url, auth=self.auth, headers=headers, params=params
                 )
             case HTTPMethod.POST:
                 response = requests.post(
-                    url=self.domain + path,
-                    auth=self.auth,
-                    headers=headers,
-                    json=payload,
+                    url, auth=self.auth, headers=headers, json=payload
                 )
             case HTTPMethod.DELETE:
-                response = requests.delete(
-                    url=self.domain + path, auth=self.auth, headers=headers
-                )
+                response = requests.delete(url, auth=self.auth, headers=headers)
             case _:
                 raise ValueError("Unsupported HTTP method")
 
