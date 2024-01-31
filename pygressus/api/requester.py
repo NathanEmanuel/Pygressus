@@ -40,30 +40,32 @@ class Requester:
 
     def authorized_request(
         self,
+        method: HTTPMethod,
         path: str,
-        method: HTTPMethod = HTTPMethod.GET,
         params: dict = dict(),
-        payload: dict = dict(),
         headers: dict = dict(),
+        payload: dict = dict(),
     ) -> requests.Response:
         """
         Returns the response to an HTTP request.
         Throws error on bad status code.
         Path must start with a /
         """
-        url = self.domain + path
+
+        base_kwargs = {
+            "url": self.domain + path,
+            "params": params,
+            "headers": headers,
+            "auth": self.auth,
+        }
 
         match method:
             case HTTPMethod.GET:
-                response = requests.get(
-                    url, auth=self.auth, headers=headers, params=params
-                )
+                response = requests.get(**base_kwargs)
             case HTTPMethod.POST:
-                response = requests.post(
-                    url, auth=self.auth, headers=headers, json=payload
-                )
+                response = requests.post(**base_kwargs, json=payload)
             case HTTPMethod.DELETE:
-                response = requests.delete(url, auth=self.auth, headers=headers)
+                response = requests.delete(**base_kwargs)
             case _:
                 raise ValueError("Unsupported HTTP method")
 
@@ -77,14 +79,16 @@ class MemberRequester(Requester):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
     def create(self):
         pass
 
     def retrieve(self, id: int) -> Member:
         path = self.BASE_PATH + f"/{id}"
-        return Member(**self.authorized_request(path).json())
+        return Member(**self.authorized_request(HTTPMethod.GET, path).json())
 
     def update(self):
         pass
@@ -95,7 +99,9 @@ class MemberRequester(Requester):
     def search(self, term, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH + "/search"
         params = {"term": term, "page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
 
 class GroupMembershipRequester(Requester):
@@ -104,7 +110,9 @@ class GroupMembershipRequester(Requester):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         params = {"page": page, "page_size": page_size, "order": order}
         return PaginatedResponse(
-            **self.authorized_request(self.BASE_PATH, params=params).json()
+            **self.authorized_request(
+                HTTPMethod.GET, self.BASE_PATH, params=params
+            ).json()
         )
 
     def create(self, gms: GroupMembership):
@@ -126,7 +134,9 @@ class WebhookRequester(Requester):
     def list(self, page=None, page_size=None, order=None):
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
     def create(self, new: ConceptualWebhook):
         path = self.BASE_PATH
@@ -139,7 +149,7 @@ class WebhookRequester(Requester):
         }
         headers = {"Content-Type": "application/json"}
         return self.authorized_request(
-            path, method=HTTPMethod.POST, payload=payload, headers=headers
+            HTTPMethod.POST, path, payload=payload, headers=headers
         )
 
     def retrieve(self):
@@ -150,8 +160,8 @@ class WebhookRequester(Requester):
 
     def delete(self, id: int):
         path = f"{self.BASE_PATH}/{id}"
-        return self.authorized_request(path, method=HTTPMethod.DELETE)
+        return self.authorized_request(HTTPMethod.DELETE, path)
 
-    def list_calls(self, id: int):
+    def list_calls(self, id: int) -> PaginatedResponse:
         path = f"{self.BASE_PATH}/{id}/calls"
-        return PaginatedResponse(**self.authorized_request(path).json())
+        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path).json())
