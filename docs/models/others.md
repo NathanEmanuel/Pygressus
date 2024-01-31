@@ -9,3 +9,12 @@
     technical_contact_email: str
     http_basic_auth_key: str
     http_basic_auth_enabled: bool
+
+#### WebhookCall
+    TODO
+
+#### StorageObject
+    TODO
+
+#### Country
+    TODO

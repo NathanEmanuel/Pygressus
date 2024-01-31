@@ -74,3 +74,15 @@
     order_type: Optional[str]
     order: Optional[int]
     group: Optional[object]
+
+#### GroupFolder
+    TODO
+
+#### Organisation
+    TODO
+
+#### OrganisationCategory
+    TODO
+
+#### OrganisationMembership
+    TODO
