@@ -1,5 +1,7 @@
-import requests
 from enum import Enum
+
+import requests
+from requests.auth import AuthBase
 
 from api.base_client import BaseClient
 from api.paginated_response import PaginatedResponse
@@ -23,10 +25,10 @@ class Requester:
 
     def __init__(self, client: BaseClient) -> None:
         """
-        Requires the client to be injected so the requester component can obtain the API domain and -key.
+        Requires the client to be injected so the requester component can obtain the API domain and token.
         """
         self.domain = client.get_domain()
-        self.auth_header = {"Authorization": f"Bearer {client.get_key()}"}
+        self.auth = BearerAuth(client.get_token())
 
     def authorized_request(
         self,
@@ -35,30 +37,30 @@ class Requester:
         params: dict = dict(),
         payload: dict = dict(),
         headers: dict = dict(),
-    ) -> dict:
+    ) -> requests.Response:
         """
         Returns the response to an HTTP request.
         Throws error on bad status code.
         Path must start with a /
         """
         url = self.domain + path
-        headers.update(self.auth_header)
 
         match method:
             case HTTPMethod.GET:
-                response = requests.get(url, headers=headers, params=params)
-                response.raise_for_status()
-                return response.json()
+                response = requests.get(
+                    url, auth=self.auth, headers=headers, params=params
+                )
             case HTTPMethod.POST:
-                response = requests.post(url, headers=headers, json=payload)
-                response.raise_for_status()
-                return response
+                response = requests.post(
+                    url, auth=self.auth, headers=headers, json=payload
+                )
             case HTTPMethod.DELETE:
-                response = requests.delete(url, headers=headers)
-                response.raise_for_status()
-                return response
+                response = requests.delete(url, auth=self.auth, headers=headers)
             case _:
                 raise ValueError("Unsupported HTTP method")
+
+        response.raise_for_status()
+        return response
 
 
 class MemberRequester(Requester):
@@ -67,25 +69,25 @@ class MemberRequester(Requester):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params))
+        return PaginatedResponse(**self.authorized_request(path, params=params).json())
 
-    def create():
+    def create(self):
         pass
 
     def retrieve(self, id: int) -> Member:
         path = self.BASE_PATH + f"/{id}"
-        return Member(**self.authorized_request(path))
+        return Member(**self.authorized_request(path).json())
 
-    def update():
+    def update(self):
         pass
 
-    def delete():
+    def delete(self):
         pass
 
     def search(self, term, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH + "/search"
         params = {"term": term, "page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params))
+        return PaginatedResponse(**self.authorized_request(path, params=params).json())
 
 
 class GroupMembershipRequester(Requester):
@@ -93,7 +95,9 @@ class GroupMembershipRequester(Requester):
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(self.BASE_PATH, params=params))
+        return PaginatedResponse(
+            **self.authorized_request(self.BASE_PATH, params=params).json()
+        )
 
     def create(self, gms: GroupMembership):
         pass
@@ -114,7 +118,7 @@ class WebhookRequester(Requester):
     def list(self, page=None, page_size=None, order=None):
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(path, params=params))
+        return PaginatedResponse(**self.authorized_request(path, params=params).json())
 
     def create(self, new: ConceptualWebhook):
         path = self.BASE_PATH
@@ -126,7 +130,9 @@ class WebhookRequester(Requester):
             "http_basic_auth_enabled": new.http_basic_auth_enabled,
         }
         headers = {"Content-Type": "application/json"}
-        return self.authorized_request(path, method=HTTPMethod.POST, payload=payload, headers=headers)
+        return self.authorized_request(
+            path, method=HTTPMethod.POST, payload=payload, headers=headers
+        )
 
     def retrieve(self):
         pass
@@ -140,4 +146,13 @@ class WebhookRequester(Requester):
 
     def list_calls(self, id: int):
         path = f"{self.BASE_PATH}/{id}/calls"
-        return PaginatedResponse(**self.authorized_request(path))
+        return PaginatedResponse(**self.authorized_request(path).json())
+
+
+class BearerAuth(AuthBase):
+    def __init__(self, token):
+        self.token = token
+
+    def __call__(self, r):
+        r.headers["Authorization"] = "Bearer " + self.token
+        return r

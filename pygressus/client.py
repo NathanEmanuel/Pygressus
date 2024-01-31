@@ -5,8 +5,8 @@ from api.requester import MemberRequester, GroupMembershipRequester, WebhookRequ
 class Client(BaseClient):
     DOMAIN = "https://api.congressus.nl"
 
-    def __init__(self, key) -> None:
-        self.key = key
+    def __init__(self, token) -> None:
+        self.token = token
         self.member = MemberRequester(self)
         self.group_membership = GroupMembershipRequester(self)
         self.webhook = WebhookRequester(self)
@@ -14,5 +14,5 @@ class Client(BaseClient):
     def get_domain(self) -> str:
         return self.DOMAIN
 
-    def get_key(self) -> str:
-        return self.key
+    def get_token(self) -> str:
+        return self.token

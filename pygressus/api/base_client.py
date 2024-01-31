@@ -12,5 +12,5 @@ class BaseClient(ABC):
         pass
 
     @abstractmethod
-    def get_key(self) -> str:
+    def get_token(self) -> str:
         pass
