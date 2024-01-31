@@ -23,12 +23,20 @@ class Requester:
     generally should be limited to development- and testing environments.
     """
 
+    class BearerAuth(AuthBase):
+        def __init__(self, token):
+            self.token = token
+
+        def __call__(self, r):
+            r.headers["Authorization"] = "Bearer " + self.token
+            return r
+
     def __init__(self, client: BaseClient) -> None:
         """
         Requires the client to be injected so the requester component can obtain the API domain and token.
         """
         self.domain = client.get_domain()
-        self.auth = BearerAuth(client.get_token())
+        self.auth = self.BearerAuth(client.get_token())
 
     def authorized_request(
         self,
@@ -147,12 +155,3 @@ class WebhookRequester(Requester):
     def list_calls(self, id: int):
         path = f"{self.BASE_PATH}/{id}/calls"
         return PaginatedResponse(**self.authorized_request(path).json())
-
-
-class BearerAuth(AuthBase):
-    def __init__(self, token):
-        self.token = token
-
-    def __call__(self, r):
-        r.headers["Authorization"] = "Bearer " + self.token
-        return r
