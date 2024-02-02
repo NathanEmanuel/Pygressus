@@ -1,20 +1,10 @@
-# Data models: financial administration
+from dataclasses import dataclass
+from typing import Optional
 
-#### Product
-    TODO
-
-#### ProductFolderWithChildren
-    TODO
-
-#### ProductFolder
-    TODO
-
-#### LogEntry
-    TODO
-
-#### SaleInvoice
+@dataclass()
+class SaleInvoice:
     invoice_source: str
-    items: list[SaleInvoiceItem]
+    items: list[object]
 
     id: Optional[int]
     uuid: Optional[str]
@@ -50,15 +40,3 @@
     currency: Optional[object]
     created: Optional[str]
     modified: Optional[str]
-
-#### SaleInvoiceItem
-    TODO
-
-#### SaleInvoicePayment
-    TODO
-
-#### SaleInvoiceWorkflow
-    TODO
-
-#### BankMutation
-    TODO
