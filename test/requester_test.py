@@ -9,6 +9,7 @@ from pygressus.client import Client
 from pygressus.api.requester import (
     MemberRequester,
     GroupMembershipRequester,
+    SaleInvoiceRequester,
     WebhookRequester,
 )
 
@@ -86,6 +87,58 @@ class GroupMembershipRequesterTest(TestCase):
 
     def test_delete(self):
         pass
+
+
+class SaleInvoiceRequesterTest(TestCase):
+    EXCEPTION = HTTPError
+    PATTERN = "401 Client Error: UNAUTHORIZED .*"
+
+    def setUp(self):
+        self.client = Client("TestToken")
+        self.requester = SaleInvoiceRequester(self.client)
+
+    def test_list(self):
+        self.requester.list()
+
+    def test_create(self):
+        self.requester.create()
+
+    def test_retrieve(self):
+        self.requester.retrieve(0)
+
+    def test_update(self):
+        self.requester.update(0)
+
+    def test_delete(self):
+        self.requester.delete(0)
+
+    def test_send(self):
+        self.requester.send(0)
+
+    def test_remind(self):
+        self.requester.remind(0)
+
+    def test_mark(self):
+        self.requester.mark(0, True)
+        self.requester.mark(0, False)
+
+    def test_download(self):
+        self.requester.download(0)
+
+    def test_log_entry_list(self):
+        self.requester.log_entry.list(0)
+
+    def test_log_entry_create(self):
+        self.requester.log_entry.create(0)
+
+    def test_log_entry_retrieve(self):
+        self.requester.log_entry.retrieve(0, 0)
+
+    def test_log_entry_update(self):
+        self.requester.log_entry.update(0, 0)
+
+    def test_log_entry_delete(self):
+        self.requester.log_entry.delete(0, 0)
 
 
 class WebhookRequesterTest(TestCase):

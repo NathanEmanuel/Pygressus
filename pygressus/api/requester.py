@@ -145,6 +145,42 @@ class GroupMembershipRequester(Requester):
         pass
 
 
+class SaleInvoiceRequester(Requester):
+    BASE_PATH = "/v30/sale-invoices"
+
+    def __init__(self, client: BaseClient) -> None:
+        super().__init__(client)
+        self.log_entry = LogEntryRequester(client, self.BASE_PATH)
+
+    def list(self):
+        path = self.BASE_PATH
+
+    def create(self):
+        path = self.BASE_PATH
+
+    def retrieve(self, id: int):
+        path = f"{self.BASE_PATH}/{id}"
+
+    def update(self, id: int):
+        path = f"{self.BASE_PATH}/{id}"
+
+    def delete(self, id: int):
+        path = f"{self.BASE_PATH}/{id}"
+
+    def send(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/send"
+
+    def remind(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/remind"
+
+    def mark(self, id: int, isCollectible: bool):
+        path = f"{self.BASE_PATH}/{id}"
+        path = f"{path}/mark-collectible" if isCollectible else f"{path}/mark-uncollectible"
+
+    def download(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/download"
+
+
 class WebhookRequester(Requester):
     BASE_PATH = "/v30/webhooks"
 
