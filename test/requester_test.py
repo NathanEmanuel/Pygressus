@@ -47,6 +47,21 @@ class MemberRequesterTest(TestCase):
         with self.assertRaisesRegex(self.EXCEPTION, self.PATTERN):
             self.requester.search("")
 
+    def test_log_entry_list(self):
+        self.requester.log_entry.list(0)
+
+    def test_log_entry_create(self):
+        self.requester.log_entry.create(0)
+
+    def test_log_entry_retrieve(self):
+        self.requester.log_entry.retrieve(0, 0)
+
+    def test_log_entry_update(self):
+        self.requester.log_entry.update(0, 0)
+
+    def test_log_entry_delete(self):
+        self.requester.log_entry.delete(0, 0)
+
 
 class GroupMembershipRequesterTest(TestCase):
     EXCEPTION = HTTPError

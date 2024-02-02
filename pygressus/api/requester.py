@@ -73,8 +73,33 @@ class Requester:
         return response
 
 
+class LogEntryRequester(Requester):
+    def __init__(self, client: BaseClient, base_path) -> None:
+        super().__init__(client)
+        self.BASE_PATH = base_path
+
+    def list(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/logs"
+
+    def create(self, id: int):
+        path = f"{self.BASE_PATH}/{id}/logs"
+
+    def retrieve(self, id: int, log_id: int):
+        path = f"{self.BASE_PATH}/{id}/logs/{log_id}"
+
+    def update(self, id: int, log_id: int):
+        path = f"{self.BASE_PATH}/{id}/logs/{log_id}"
+
+    def delete(self, id: int, log_id: int):
+        path = f"{self.BASE_PATH}/{id}/logs/{log_id}"
+
+
 class MemberRequester(Requester):
     BASE_PATH = "/v30/members"
+
+    def __init__(self, client: BaseClient) -> None:
+        super().__init__(client)
+        self.log_entry = LogEntryRequester(client, self.BASE_PATH)
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
