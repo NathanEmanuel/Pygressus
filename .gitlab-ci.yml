@@ -19,7 +19,7 @@ before_script:
 
 tree:
   script:
-    - sudo apt install tree
+    - apk add git tree
     - cd "$CI_PROJECT_DIR/pygressus/"
     - tree
 
