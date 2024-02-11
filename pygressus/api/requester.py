@@ -59,15 +59,14 @@ class Requester:
             "auth": self.auth,
         }
 
-        match method:
-            case HTTPMethod.GET:
-                response = requests.get(**base_kwargs)
-            case HTTPMethod.POST:
-                response = requests.post(**base_kwargs, json=payload)
-            case HTTPMethod.DELETE:
-                response = requests.delete(**base_kwargs)
-            case _:
-                raise ValueError("Unsupported HTTP method")
+        if method is HTTPMethod.GET:
+            response = requests.get(**base_kwargs)
+        elif method is HTTPMethod.POST:
+            response = requests.post(**base_kwargs, json=payload)
+        elif method is HTTPMethod.DELETE:
+            response = requests.delete(**base_kwargs)
+        else:
+            raise ValueError("Unsupported HTTP method")
 
         response.raise_for_status()
         return response
