@@ -1,6 +1,3 @@
-from typing import Optional
-
-
 class PaginatedResponse:
     def __init__(
         self,

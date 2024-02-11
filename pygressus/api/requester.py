@@ -103,7 +103,9 @@ class MemberRequester(Requester):
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
     def create(self):
         pass
@@ -121,7 +123,9 @@ class MemberRequester(Requester):
     def search(self, term, page=None, page_size=None, order=None) -> PaginatedResponse:
         path = self.BASE_PATH + "/search"
         params = {"term": term, "page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
 
 class GroupMembershipRequester(Requester):
@@ -129,7 +133,11 @@ class GroupMembershipRequester(Requester):
 
     def list(self, page=None, page_size=None, order=None) -> PaginatedResponse:
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, self.BASE_PATH, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(
+                HTTPMethod.GET, self.BASE_PATH, params=params
+            ).json()
+        )
 
     def create(self, gms: GroupMembership):
         pass
@@ -174,7 +182,11 @@ class SaleInvoiceRequester(Requester):
 
     def mark(self, id: int, isCollectible: bool):
         path = f"{self.BASE_PATH}/{id}"
-        path = f"{path}/mark-collectible" if isCollectible else f"{path}/mark-uncollectible"
+        path = (
+            f"{path}/mark-collectible"
+            if isCollectible
+            else f"{path}/mark-uncollectible"
+        )
 
     def download(self, id: int):
         path = f"{self.BASE_PATH}/{id}/download"
@@ -186,7 +198,9 @@ class WebhookRequester(Requester):
     def list(self, page=None, page_size=None, order=None):
         path = self.BASE_PATH
         params = {"page": page, "page_size": page_size, "order": order}
-        return PaginatedResponse(**self.authorized_request(HTTPMethod.GET, path, params=params).json())
+        return PaginatedResponse(
+            **self.authorized_request(HTTPMethod.GET, path, params=params).json()
+        )
 
     def create(self, new: ConceptualWebhook):
         path = self.BASE_PATH
@@ -198,7 +212,9 @@ class WebhookRequester(Requester):
             "http_basic_auth_enabled": new.http_basic_auth_enabled,
         }
         headers = {"Content-Type": "application/json"}
-        return self.authorized_request(HTTPMethod.POST, path, payload=payload, headers=headers)
+        return self.authorized_request(
+            HTTPMethod.POST, path, payload=payload, headers=headers
+        )
 
     def retrieve(self):
         pass
