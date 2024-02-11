@@ -2,9 +2,6 @@ from unittest import TestCase
 
 from requests.exceptions import HTTPError
 
-from __init__ import (
-    pygressus,
-)  # purely to avoid a ModuleNotFoundError when __name__ == "__main__"
 from pygressus.client import Client
 from pygressus.api.requester import (
     HTTPMethod,
