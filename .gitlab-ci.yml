@@ -28,9 +28,9 @@ tree:
   stage: docs
   script:
     - apk add git tree
-    - TREE=$(tree pygressus/ --filesfirst)
+    - TREE=$(tree pygressus --filesfirst)
     - TREE=$(echo "$TREE" | sed -e '/^.*__init__.*$/d' | head -n -2)
-    - echo "$TREE" > lib-struct.md
+    - echo "$TREE" > lib-struct.txt
   artifacts:
     paths:
-      - lib-struct.md
+      - lib-struct.txt
