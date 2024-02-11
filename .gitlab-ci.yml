@@ -1,4 +1,4 @@
-image: python:alpine3.19
+image: python:3.9.18-alpine3.19
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -18,8 +18,9 @@ test:
   stage: test
   rules:
     - changes: 
-      - pygressus
-      - test
+      - pygressus/*
+      - test/*
+      - .gitlab-ci.yml
   script:
     - python --version ; pip --version  # For debugging
     - pip install virtualenv
@@ -32,7 +33,7 @@ tree:
   stage: docs
   rules:
     - changes: 
-      - pygressus
+      - pygressus/*
   script:
     - apk add git tree
     - TREE=$(tree pygressus --filesfirst)
