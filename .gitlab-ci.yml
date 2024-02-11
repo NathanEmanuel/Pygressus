@@ -16,6 +16,10 @@ stages:
 
 test:
   stage: test
+  rules:
+    - changes: 
+      - pygressus
+      - test
   script:
     - python --version ; pip --version  # For debugging
     - pip install virtualenv
@@ -26,6 +30,9 @@ test:
 
 tree:
   stage: docs
+  rules:
+    - changes: 
+      - pygressus
   script:
     - apk add git tree
     - TREE=$(tree pygressus --filesfirst)
