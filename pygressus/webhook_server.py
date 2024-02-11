@@ -2,10 +2,6 @@ from http.server import BaseHTTPRequestHandler
 
 
 class WebhookHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-
     def do_POST(self):
         self.send_response(200)
         self.end_headers()
