@@ -1,4 +1,4 @@
-image: python:alpine3.19
+image: python:3.9.18-alpine3.19
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
