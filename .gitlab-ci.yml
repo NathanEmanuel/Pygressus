@@ -10,9 +10,12 @@ cache:
   paths:
     - .cache/pip
 
+stages:
+  - test
+  - docs
+
 test:
-  stage:
-    - test
+  stage: test
   script:
     - python --version ; pip --version  # For debugging
     - pip install virtualenv
@@ -22,8 +25,7 @@ test:
     - python3 -m unittest discover -s test -p '*_test.py'
 
 tree:
-  stage:
-    - docs
+  stage: docs
   script:
     - apk add git tree
     - TREE=$(tree pygressus/ --filesfirst)
