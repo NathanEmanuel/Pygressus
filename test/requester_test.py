@@ -7,6 +7,8 @@ from __init__ import (
 )  # purely to avoid a ModuleNotFoundError when __name__ == "__main__"
 from pygressus.client import Client
 from pygressus.api.requester import (
+    HTTPMethod,
+    Requester,
     MemberRequester,
     GroupMembershipRequester,
     SaleInvoiceRequester,
@@ -14,11 +16,25 @@ from pygressus.api.requester import (
 )
 
 
-class MemberRequesterTest(TestCase):
+class RequesterTest(TestCase):
     """
     This only tests if the request is sent correctly. It doensn't test how the
     answer is handled because that would require either a token or a mock.
     """
+
+    EXCEPTION = HTTPError
+    PATTERN = "401 Client Error: UNAUTHORIZED .*"
+
+    def setUp(self):
+        self.client = Client("TestToken")
+        self.requester = Requester(self.client)
+
+    def test_authorized_request(self):
+        with self.assertRaisesRegex(self.EXCEPTION, self.PATTERN):
+            self.requester.authorized_request(HTTPMethod.GET, "")
+
+
+class MemberRequesterTest(TestCase):
 
     EXCEPTION = HTTPError
     PATTERN = "401 Client Error: UNAUTHORIZED .*"
