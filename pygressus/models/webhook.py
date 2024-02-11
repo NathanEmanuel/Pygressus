@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Enum
 
 
-class Signal(StrEnum):
+class Signal(Enum):
     MEMBER = "member"
     MEMBER_ADDED = "member_added"
     MEMBER_UPDATED = "member_updated"
@@ -25,7 +25,7 @@ class Signal(StrEnum):
 class ConceptualWebhook:
     url: str
     headers: object
-    signal: StrEnum
+    signal: Enum
     technical_contact_email: str
     http_basic_auth_enabled: bool
 
